@@ -21,10 +21,10 @@ public class CSVWriter {
     private static final String AFAS_CODES = "afasCodes";
     private static final String EMPLOYEE_CODES = "employeeCodes";
     private static final String NOT_KNOWN = "Not known";
-    private static final String INPUT_PROVIDER = "Execom";
-    private static final String NO = "N";
-    private static final String YES = "J";
-    private static final String DEBTOR = "Itris B.V.";
+    private static final String INPUT_PROVIDER = "Company Name";
+    private static final String NO = "Y";
+    private static final String YES = "N";
+    private static final String DEBTOR = "Company Name";
     private static final String BILLABLE = "BILLABLE";
 
     /**
