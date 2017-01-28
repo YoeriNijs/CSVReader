@@ -1,5 +1,5 @@
 # CSVReader
-A simple csv reader in Java that converts csv input to custom csv output. In this example, data from another company can be converted to standards that can be imported in AFAS business software.
+A simple csv reader in Java that converts csv input to custom csv output. In this example, data from another company will be converted to AFAS business software standards.
 
 # Running the reader
 - Clone the project
