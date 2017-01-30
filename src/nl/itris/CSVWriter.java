@@ -20,11 +20,11 @@ public class CSVWriter {
     private int nr = 0;
     private static final String AFAS_CODES = "afasCodes";
     private static final String EMPLOYEE_CODES = "employeeCodes";
-    private static final String NOT_KNOWN = "Not known";
-    private static final String INPUT_PROVIDER = "Company Name";
-    private static final String NO = "Y";
-    private static final String YES = "N";
-    private static final String DEBTOR = "Company Name";
+    private static final String NOT_KNOWN = ""; // Must be empty due to AFAS import standards
+    private static final String INPUT_PROVIDER = "Provider";
+    private static final String NO = "N";
+    private static final String YES = "Y";
+    private static final String DEBTOR = "Debtor";
     private static final String BILLABLE = "BILLABLE";
 
     /**
@@ -80,7 +80,7 @@ public class CSVWriter {
         out = out.append(weekParts[1]).append(SEPERATOR);
 
         // Get date
-        out = out.append(date).append(SEPERATOR);
+        out = out.append(date.replaceAll("/", "-")).append(SEPERATOR);
 
         // Get number of hours
         out = out.append(output[11]).append(SEPERATOR);
@@ -110,11 +110,12 @@ public class CSVWriter {
 
         // Get phase
         String story = output[6];
-        out = out.append(setProperties.getDefaultDefinitions(story)).append(SEPERATOR);
+        String translation;
+        translation = setProperties.getPhaseDefinitions(story);
+        out = out.append(translation).append(SEPERATOR);
 
         // Get code
-        String task = output[7];
-        out = out.append(setProperties.getDefaultDefinitions(task)).append(SEPERATOR);
+        out = out.append(setProperties.getCodeDefinitions(translation)).append(SEPERATOR);
 
         // Get report number
         out = out.append(NOT_KNOWN).append(SEPERATOR);

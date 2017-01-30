@@ -36,7 +36,8 @@ public class Main {
 
             // Set default translations for outputting project phases and codes
             CSVProperties setProperties = new CSVProperties();
-            setProperties.setDefaultDefinitions();
+            setProperties.setPhaseDefinitions();
+            setProperties.setCodeDefinitions();
 
             // Read CSV file and write values to output file
             CSVReader csvReader = new CSVReader();
