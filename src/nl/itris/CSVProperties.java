@@ -29,30 +29,30 @@ public class CSVProperties {
         output = new FileOutputStream(PROP_PHASE_FILENAME);
 
         // Definitions for Ontwikkeling
-        propPhase.setProperty("Development", DEVELOPMENT);
-        propPhase.setProperty("Maintenance", DEVELOPMENT);
-        propPhase.setProperty("Puzzler", DEVELOPMENT);
-        propPhase.setProperty("Bugs", DEVELOPMENT);
-        propPhase.setProperty("Bug", DEVELOPMENT);
-        propPhase.setProperty("Fixing", DEVELOPMENT);
-        propPhase.setProperty("Fix", DEVELOPMENT);
+        propPhase.setProperty("development", DEVELOPMENT);
+        propPhase.setProperty("maintenance", DEVELOPMENT);
+        propPhase.setProperty("puzzler", DEVELOPMENT);
+        propPhase.setProperty("bugs", DEVELOPMENT);
+        propPhase.setProperty("bug", DEVELOPMENT);
+        propPhase.setProperty("fixing", DEVELOPMENT);
+        propPhase.setProperty("fix", DEVELOPMENT);
 
         // Definitions for Testen
-        propPhase.setProperty("Testing", TESTING);
-        propPhase.setProperty("Tests", TESTING);
-        propPhase.setProperty("Test", TESTING);
+        propPhase.setProperty("testing", TESTING);
+        propPhase.setProperty("tests", TESTING);
+        propPhase.setProperty("test", TESTING);
 
         // Definitions for Architectuur
-        propPhase.setProperty("Architectural", ARCHITECTURE);
-        propPhase.setProperty("Architecture", ARCHITECTURE);
+        propPhase.setProperty("architectural", ARCHITECTURE);
+        propPhase.setProperty("architecture", ARCHITECTURE);
 
         // Definitions for Overleg
-        propPhase.setProperty("Meetings", MEETING);
-        propPhase.setProperty("Meeting", MEETING);
-        propPhase.setProperty("Standups", MEETING);
-        propPhase.setProperty("Standup", MEETING);
-        propPhase.setProperty("Support", MEETING);
-        propPhase.setProperty("Supporting", MEETING);
+        propPhase.setProperty("meetings", MEETING);
+        propPhase.setProperty("meeting", MEETING);
+        propPhase.setProperty("standups", MEETING);
+        propPhase.setProperty("standup", MEETING);
+        propPhase.setProperty("support", MEETING);
+        propPhase.setProperty("supporting", MEETING);
 
         // Close file if needed
         if (output != null) {
@@ -67,16 +67,16 @@ public class CSVProperties {
         output = new FileOutputStream(PROP_CODE_FILENAME);
 
         // Code for Ontwikkeling
-        propCode.setProperty(DEVELOPMENT, "1");
+        propCode.setProperty(DEVELOPMENT, "55.1");
 
         // Code for Testen
-        propCode.setProperty(TESTING, "2");
+        propCode.setProperty(TESTING, "52.1");
 
         // Code for Architectuur
-        propCode.setProperty(ARCHITECTURE, "3");
+        propCode.setProperty(ARCHITECTURE, "91");
 
         // Code for Overleg
-        propCode.setProperty(MEETING, "4");
+        propCode.setProperty(MEETING, "");
 
         // Close file if needed
         if (output != null) {
@@ -97,8 +97,9 @@ public class CSVProperties {
     public String getPhaseDefinitions(String s) throws Exception {
         String translation = "";
         for (String word : s.split(" ")) {
-            if (propPhase.getProperty(word) != null) {
-                translation = propPhase.getProperty(word);
+            if (propPhase.getProperty(word.toLowerCase()) != null) {
+                translation = propPhase.getProperty(word.toLowerCase());
+                break;
             } else {
                 translation = NOT_KNOWN;
             }
@@ -111,6 +112,7 @@ public class CSVProperties {
         for (String word : s.split(" ")) {
             if (propCode.getProperty(word) != null) {
                 code = propCode.getProperty(word);
+                break;
             } else {
                 code = NOT_KNOWN;
             }

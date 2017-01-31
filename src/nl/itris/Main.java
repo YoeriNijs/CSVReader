@@ -42,6 +42,9 @@ public class Main {
             // Read CSV file and write values to output file
             CSVReader csvReader = new CSVReader();
             csvReader.read(inputFile);
+
+            // Close output writer stream
+            CSVWriter.closeOutputWriter();
         } catch (FileNotFoundException e) {
             System.out.println(FILE_NOT_FOUND);
         } catch (Exception e) {

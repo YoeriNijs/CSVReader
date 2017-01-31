@@ -1,6 +1,7 @@
 package nl.itris;
 
 import java.io.*;
+import java.util.Scanner;
 
 /**
  * @authors Tinie Sluijter and Yoeri Nijs
@@ -10,6 +11,8 @@ public class Common {
 
 	private static final String OUTPUT_DIR = "CSVReader";
 	private static final String NO_SUPPORT = "No support for this operating system yet. Use Linux or Windows. Discontinue.";
+	private static final String NEW_FILE_NAME = "Enter a new filename (without .csv)";
+	private static final String EXIT_PROGRAM = "write 'exit' to cancel and exit this program";
 
 	/**
 	 * Method for determining current working path
@@ -43,6 +46,46 @@ public class Common {
 
 		// Return complete output path
 		return workingPath + File;
+	}
+
+	/**
+	 * Method to determine whether file exist
+	 * @param fileLocation
+	 * @return
+	 */
+	public static Boolean fileExist(String fileLocation) {
+		File f = new File(fileLocation);
+		if(f.exists() && !f.isDirectory()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	/**
+	 * Method to create new file name
+	 * @return
+	 */
+	public static String createFileName() {
+		System.out.println(NEW_FILE_NAME + " or " + EXIT_PROGRAM + ":");
+		Scanner reader = new Scanner(System.in);
+		String name = reader.next();
+
+		// Exit program if wanted
+		if (name.toLowerCase().equals("exit")) {
+			exitProgram();
+		}
+
+		// Return filename
+		return name;
+	}
+
+	/**
+	 * Method to exit program
+	 */
+	public static void exitProgram() {
+		System.exit(0);
 	}
 
 }

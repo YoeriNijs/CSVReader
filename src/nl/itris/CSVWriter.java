@@ -21,11 +21,13 @@ public class CSVWriter {
     private static final String AFAS_CODES = "afasCodes";
     private static final String EMPLOYEE_CODES = "employeeCodes";
     private static final String NOT_KNOWN = ""; // Must be empty due to AFAS import standards
-    private static final String INPUT_PROVIDER = "Provider";
+    private static final String INPUT_PROVIDER = "Data provider name";
     private static final String NO = "N";
-    private static final String YES = "Y";
-    private static final String DEBTOR = "Debtor";
+    private static final String YES = "J";
+    private static final String DEBTOR = "Debtor name";
     private static final String BILLABLE = "BILLABLE";
+    private static final String ERROR_MESSAGE = "The following output file does already exist: ";
+    private static FileWriter outputWriter;
 
     /**
      * Instantiate new CSV writer
@@ -34,6 +36,14 @@ public class CSVWriter {
     public CSVWriter() throws Exception {
         setProperties = new CSVProperties();
         setProperties.load();
+    }
+
+    /**
+     * Close output writer method
+     * @throws Exception
+     */
+    public static void closeOutputWriter() throws Exception {
+        outputWriter.close();
     }
 
     /**
@@ -52,9 +62,20 @@ public class CSVWriter {
         CSVReader r = new CSVReader();
         String customCsvOutputFile = r.readFile(SAVE_NAME_FILE) + CSV_OUTPUTFILE;
         String outputLocation = Common.getWorkingPath(customCsvOutputFile);
-        FileWriter writer = new FileWriter(outputLocation);
-        writer.write(CSV_HEADER);
-        writer.close();
+
+        // Check if file exists
+        Boolean exist = Common.fileExist(outputLocation);
+
+        // If file does exist, ask for new location and write output
+        if (exist) {
+            System.out.println(ERROR_MESSAGE + outputLocation);
+            String fileName = Common.createFileName();
+            outputWriter = new FileWriter(Common.getWorkingPath(fileName + ".csv"), true);
+        } else {
+            outputWriter = new FileWriter(outputLocation, true);
+        }
+
+        outputWriter.write(CSV_HEADER);
     }
 
     /**
@@ -110,12 +131,20 @@ public class CSVWriter {
 
         // Get phase
         String story = output[6];
-        String translation;
-        translation = setProperties.getPhaseDefinitions(story);
-        out = out.append(translation).append(SEPERATOR);
+        String translation = setProperties.getPhaseDefinitions(story);
+        String translationPhase;
+
+        if (translation == ""){
+            String memo = output[8]; // If translation is not known, validate information in memo
+            translationPhase = setProperties.getPhaseDefinitions(memo);
+        } else {
+            translationPhase = translation;
+        }
+
+        out = out.append(translationPhase).append(SEPERATOR);
 
         // Get code
-        out = out.append(setProperties.getCodeDefinitions(translation)).append(SEPERATOR);
+        out = out.append(setProperties.getCodeDefinitions(translationPhase)).append(SEPERATOR);
 
         // Get report number
         out = out.append(NOT_KNOWN).append(SEPERATOR);
@@ -136,19 +165,11 @@ public class CSVWriter {
         // New row
         out.append("\n");
 
-        // Write everything to output file
-        String customCsvOutputFile = r.readFile(SAVE_NAME_FILE) + CSV_OUTPUTFILE;
-        String outputLocation = Common.getWorkingPath(customCsvOutputFile);
-
-        // Overwrite file if already written
-        FileWriter writer = new FileWriter(outputLocation, true);
-
         // Logging, not active. Use when needed.
         // System.out.println(out);
 
-        // Close file
-        writer.write(out.toString());
-        writer.close();
+        // Write output
+        outputWriter.write(out.toString());
     }
 
     /**
